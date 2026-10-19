@@ -102,6 +102,7 @@ a{color:var(--link-pink)}
 .hero-left .hero-sub{color:var(--yellow);font-size:clamp(1.05rem,2vw,1.35rem);font-weight:600;margin:0}
 .hero-right{background:#000;display:flex;align-items:center;justify-content:center;padding:24px}
 .hero-right iframe{width:100%;max-width:560px;aspect-ratio:16/9;border:0;border-radius:12px}
+.hero-right .hero-video{width:100%;max-width:560px;aspect-ratio:16/9;border:0;border-radius:12px;background:#000;object-fit:cover}
 
 /* ---------- video section ---------- */
 .video-section{background:#000;padding:40px 20px}
