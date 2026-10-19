@@ -1,0 +1,28 @@
+---
+const faqs = [
+  { q: 'Where can I buy graduation balloons near me?', a: 'You can purchase graduation balloons from our balloon store or order custom graduation balloon decorations with same-day delivery.' },
+  { q: 'Can I bring balloons to a graduation ceremony?', a: "It depends on the venue's rules—some allow graduation balloon bouquets, but others restrict helium balloons indoors." },
+  { q: 'How do you make a graduation cap out of balloons?', a: 'We design custom graduation cap balloon centerpieces featuring black mylar balloons, tassel details, and floating balloon arrangements.' },
+  { q: 'How to make a balloon bouquet without helium for graduation?', a: 'Use graduation balloon stands, weighted air-filled balloons, and tabletop balloon arrangements for a stunning display.' },
+  { q: 'How do you make graduation balloon centerpieces?', a: 'Our custom graduation centerpieces include stacked balloon columns, floating foil balloons, and personalized school logo balloons.' },
+  { q: 'How to make a balloon graduation waterfall?', a: 'The balloon waterfall uses graduation helium balloons, cascading balloon garlands, and LED-filled balloons for a magical effect.' },
+  { q: 'How much are the graduation balloons at Party City?', a: 'Our custom graduation balloons offer higher quality, unique designs, and better pricing than standard Party City balloon options.' },
+  { q: 'How many balloons do I need for a graduation party?', a: 'Regarding the cost of the venue size, we recommend balloon arches, helium bouquets, and statement balloon columns for a complete setup.' },
+  { q: 'Do you offer same-day graduation balloon delivery?', a: 'Yes! We provide same-day graduation balloon delivery near you, ensuring your balloon decorations arrive fresh and on time.' },
+  { q: 'Do you have eco-friendly graduation balloons?', a: 'Yes, we offer biodegradable latex balloons, eco-friendly helium balloons, and sustainable balloon decoration options.' },
+  { q: 'Do you provide graduation balloon setup services?', a: 'Absolutely! Our professional balloon decorators handle balloon installation, custom arrangements, and event balloon styling.' },
+];
+---
+<section id="faq">
+  <div class="container">
+    <div class="band"><h2>Frequently Asked Questions</h2></div>
+    <div class="faq">
+      {faqs.map(f => (
+        <div class="faq-item">
+          <button class="faq-q" type="button"><span class="marker">&#9654;</span>{f.q}</button>
+          <div class="faq-a"><p>{f.a}</p></div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,15 @@
+---
+const logos = ['CVS', 'JBL', 'Coca-Cola', 'Facebook', 'Amazon', 'Sugar Factory'];
+---
+<section id="corporate" data-spy>
+  <div class="container">
+    <div class="band"><h2>Your Corporate Clients</h2></div>
+    <div class="corp-wrap">
+      <button class="corp-arrow prev" type="button" aria-label="Previous logos">&#8249;</button>
+      <div class="corp-track">
+        {logos.map(l => <div class="corp-logo">{l}</div>)}
+      </div>
+      <button class="corp-arrow next" type="button" aria-label="Next logos">&#8250;</button>
+    </div>
+  </div>
+</section>

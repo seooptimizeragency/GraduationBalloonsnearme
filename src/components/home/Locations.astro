@@ -1,0 +1,20 @@
+---
+const areas = [
+  { name: 'Brooklyn', places: ['Williamsburg', 'Park Slope', 'Coney Island', 'Bay Ridge', 'Bushwick', 'DUMBO'] },
+  { name: 'Manhattan', places: ['Times Square', 'Upper East Side', 'Harlem', 'Financial District', 'Greenwich Village', 'SoHo'] },
+  { name: 'Staten Island', places: ['St. George', 'Tottenville', 'New Dorp', 'Great Kills', 'Mariners Harbor', 'Stapleton'] },
+  { name: 'New Jersey', places: ['Newark', 'Jersey City', 'Hoboken', 'Princeton', 'Edison', 'Paterson'] },
+];
+---
+<section id="locations">
+  <div class="container">
+    {areas.map(a => (
+      <div class="loc-section">
+        <div class="band"><h2>Balloons Delivery Near Famous Places In {a.name}</h2></div>
+        <ul class="loc-grid">
+          {a.places.map(p => <li><a href="/#contact">{p}</a></li>)}
+        </ul>
+      </div>
+    ))}
+  </div>
+</section>
