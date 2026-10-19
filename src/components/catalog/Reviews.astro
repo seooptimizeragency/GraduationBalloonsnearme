@@ -1,0 +1,34 @@
+---
+import { reviews } from "./data";
+---
+<section aria-label="Map">
+  <div class="band"><h2>Map</h2></div>
+  <div class="map-embed">
+    <iframe
+      title="Balloons Lane store location map"
+      src="https://www.google.com/maps?q=109+Hastings+St,+Staten+Island,+NY+10305&output=embed"
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+    ></iframe>
+  </div>
+</section>
+
+<section aria-label="Customer reviews">
+  <div class="band"><h2>Customer Reviews</h2></div>
+  <div class="review-grid">
+    {reviews.map((r) => (
+      <article class="review-card">
+        <img src={r.avatar} alt={r.avatarAlt} loading="lazy" />
+        <h4>{r.name}</h4>
+        <p>{r.text}</p>
+      </article>
+    ))}
+  </div>
+</section>
+
+<section aria-label="Contact form">
+  <div class="band"><h2>Contact Form</h2></div>
+  <div style="text-align:center">
+    <a class="btn btn-yellow btn-wide" href="/contact-form/">Go to Contact Form</a>
+  </div>
+</section>

@@ -1,0 +1,37 @@
+---
+import Head from "../components/Head.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Galleries from "../components/catalog/Galleries.astro";
+import Occasions from "../components/catalog/Occasions.astro";
+import Colors from "../components/catalog/Colors.astro";
+import Delivery from "../components/catalog/Delivery.astro";
+import Reviews from "../components/catalog/Reviews.astro";
+import "../styles/global.css";
+---
+<!doctype html>
+<html lang="en">
+  <Head
+    title="Catalog | Balloons Lane"
+    description="Browse the Balloons Lane catalog: balloon products, occasions, colors and finishes, delivery neighborhoods and zip codes across New Jersey, Staten Island, Brooklyn and Manhattan."
+  />
+  <body>
+    <Header active="catalog" />
+    <main>
+      <section class="contact-hero">
+        <div class="container">
+          <h1>Catalog</h1>
+        </div>
+      </section>
+      <div class="container">
+        <Galleries />
+        <Occasions />
+        <Colors />
+        <Delivery />
+        <Reviews />
+      </div>
+    </main>
+    <Footer />
+    <script is:inline src="/js/main.js"></script>
+  </body>
+</html>

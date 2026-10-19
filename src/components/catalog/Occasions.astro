@@ -1,0 +1,19 @@
+---
+import { occasions } from "./data";
+---
+<section class="loc-section" aria-label="Our events and occasion">
+  <div class="band"><h2>Our events and OCCASION</h2></div>
+  {occasions.map((o) => (
+    <div style="margin-bottom:28px">
+      <h3>{o.title}</h3>
+      {o.subs.map((s) => (
+        <div style="margin-bottom:18px">
+          {s.title && <h4>{s.title}</h4>}
+          <ul class="loc-grid">
+            {s.items.map((i) => <li>{i}</li>)}
+          </ul>
+        </div>
+      ))}
+    </div>
+  ))}
+</section>

@@ -1,0 +1,12 @@
+---
+import { colorGroups } from "./data";
+import ListBlock from "./ListBlock.astro";
+---
+<section class="loc-section" aria-label="Our color, finish and structure">
+  <div class="band"><h2>Our Color / FINISH / structure</h2></div>
+  {colorGroups.map((g) => (
+    <div style="margin-bottom:28px">
+      <ListBlock title={g.title} items={g.items} />
+    </div>
+  ))}
+</section>

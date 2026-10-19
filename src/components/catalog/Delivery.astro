@@ -1,0 +1,45 @@
+---
+import { njNeighborhoods, siNeighborhoods, brooklynGroups, manhattanGroups, zipSections } from "./data";
+import ListBlock from "./ListBlock.astro";
+---
+<section class="loc-section" aria-label="Balloons delivery near you">
+  <div class="band"><h2>Balloons Delivery Near You</h2></div>
+
+  <div style="margin-bottom:28px">
+    <ListBlock title="Balloons Delivery Near New Jersey / Neighborhoods" items={njNeighborhoods} />
+  </div>
+
+  <div style="margin-bottom:28px">
+    <ListBlock title="Balloons Delivery near Staten Island / Neighborhoods" items={siNeighborhoods} />
+  </div>
+
+  <div style="margin-bottom:28px">
+    <h3>{brooklynGroups.title}</h3>
+    {brooklynGroups.groups.map((g) => (
+      <div style="margin-bottom:18px">
+        <h4>{g.title}</h4>
+        <ul class="loc-grid">
+          {g.items.map((i) => <li>{i}</li>)}
+        </ul>
+      </div>
+    ))}
+  </div>
+
+  <div style="margin-bottom:28px">
+    <h3>{manhattanGroups.title}</h3>
+    {manhattanGroups.groups.map((g) => (
+      <div style="margin-bottom:18px">
+        <h4>{g.title}</h4>
+        <ul class="loc-grid">
+          {g.items.map((i) => <li>{i}</li>)}
+        </ul>
+      </div>
+    ))}
+  </div>
+
+  {zipSections.map((z) => (
+    <div style="margin-bottom:28px">
+      <ListBlock title={z.title} items={z.items} />
+    </div>
+  ))}
+</section>

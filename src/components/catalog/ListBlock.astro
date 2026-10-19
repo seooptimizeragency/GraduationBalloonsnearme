@@ -1,0 +1,10 @@
+---
+interface Props { title: string; items: string[]; }
+const { title, items } = Astro.props;
+---
+{title && <h3>{title}</h3>}
+{items.length > 0 && (
+  <ul class="loc-grid">
+    {items.map((i) => <li>{i}</li>)}
+  </ul>
+)}
