@@ -4,49 +4,43 @@
   <div class="container">
     <div class="band"><h2>Contact Form</h2></div>
     <form class="inquiry-form" id="inquiryForm" method="post" enctype="multipart/form-data">
-      <div class="row">
-        <div class="field">
-          <label for="cf-name">Name</label>
-          <input type="text" id="cf-name" name="name" autocomplete="name" required />
-        </div>
-        <div class="field">
-          <label for="cf-email">Email</label>
-          <input type="email" id="cf-email" name="email" autocomplete="email" required />
-        </div>
+      <div class="field">
+        <label for="cf-name">Name</label>
+        <input type="text" id="cf-name" name="name" autocomplete="name" required />
       </div>
-      <div class="row">
-        <div class="field">
-          <label for="cf-phone">Phone</label>
-          <input type="tel" id="cf-phone" name="phone" autocomplete="tel" />
-        </div>
-        <div class="field">
-          <label for="cf-date">Event Date</label>
-          <input type="date" id="cf-date" name="event_date" />
-        </div>
+      <div class="field">
+        <label for="cf-email">Email</label>
+        <input type="email" id="cf-email" name="email" autocomplete="email" required />
       </div>
-      <div class="row">
-        <div class="field">
-          <label for="cf-zip">Delivery Zip</label>
-          <input type="text" id="cf-zip" name="delivery_zip" inputmode="numeric" />
-        </div>
-        <div class="field">
-          <label for="cf-occasion">Occasion</label>
-          <select id="cf-occasion" name="occasion">
-            <option>Birthday</option>
-            <option selected>Graduation</option>
-            <option>Wedding</option>
-            <option>Corporate</option>
-            <option>Baby Shower</option>
-            <option>Other</option>
-          </select>
-        </div>
+      <div class="field">
+        <label for="cf-phone">Text Phone Number</label>
+        <input type="tel" id="cf-phone" name="phone" autocomplete="tel" />
+      </div>
+      <div class="field">
+        <label for="cf-date">Event Date</label>
+        <input type="date" id="cf-date" name="event_date" required />
+      </div>
+      <div class="field">
+        <label for="cf-zip">Delivery Zip Code</label>
+        <input type="text" id="cf-zip" name="delivery_zip" inputmode="numeric" required />
+      </div>
+      <div class="field">
+        <label for="cf-occasion">Occasion / Event / theme if any</label>
+        <select id="cf-occasion" name="occasion">
+          <option>Birthday</option>
+          <option selected>Graduation</option>
+          <option>Wedding</option>
+          <option>Corporate</option>
+          <option>Baby Shower</option>
+          <option>Other</option>
+        </select>
       </div>
       <div class="field">
         <label for="cf-msg">Message</label>
-        <textarea id="cf-msg" name="message" placeholder="Tell us about your event, colors, and what you need"></textarea>
+        <textarea id="cf-msg" name="message" required placeholder="Tell us about your event, colors, and what you need"></textarea>
       </div>
       <div class="field">
-        <label for="cf-file">Attach a file (optional)</label>
+        <label for="cf-file">Attach design you like</label>
         <input type="file" id="cf-file" name="attachment" />
       </div>
       <div class="cf-check" aria-hidden="true">
