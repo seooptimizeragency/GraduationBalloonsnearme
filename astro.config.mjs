@@ -1,5 +1,5 @@
 import { defineConfig } from 'astro/config';
 export default defineConfig({
   output: 'static',
-  build: { inlineStylesheets: 'auto' }
+  build: { inlineStylesheets: 'auto', format: 'file' }
 });
