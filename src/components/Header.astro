@@ -16,10 +16,10 @@ const link = (id: string, href: string, label: string) =>
     </div>
     <nav class="main-nav" aria-label="Main navigation">
       <Fragment set:html={link('home', '/', 'Home')} />
-      <Fragment set:html={link('catalog', '/catalog/', 'Catalog')} />
+      <Fragment set:html={link('catalog', '/catalog.html', 'Catalog')} />
       <Fragment set:html={link('corporate', '/#corporate', 'Corporate')} />
       <Fragment set:html={link('video', '/#videos', 'YT Video')} />
-      <Fragment set:html={link('contact', '/contact-form/', 'Contact Form')} />
+      <Fragment set:html={link('contact', '/contact-form.html', 'Contact Form')} />
     </nav>
     <div class="header-contact">
       <span aria-hidden="true">☎</span>
