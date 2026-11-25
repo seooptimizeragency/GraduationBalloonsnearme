@@ -47,9 +47,11 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 
-  /* Inquiry forms: validate in the browser, then genuinely submit.
-     Delivery: FormSubmit forwards each valid inquiry to seooptimizeragency@gmail.com
-     (spam captcha page + first-submission activation email apply on their side). */
+  /* Inquiry forms: validate in the browser, then submit in-page via AJAX
+     (no navigation to FormSubmit). Delivery: FormSubmit forwards each valid
+     inquiry to seooptimizeragency@gmail.com; success is shown only after
+     FormSubmit confirms, errors show an inline message. First-submission
+     activation email applies on their side. */
   (function () {
     var forms = document.querySelectorAll('form.inquiry-form');
     if (!forms.length) return;
@@ -73,6 +75,25 @@ document.addEventListener('DOMContentLoaded', () => {
     function fieldByName(form, name) {
       var input = form.querySelector('[name="' + name + '"]');
       return input ? input.closest('.field') : null;
+    }
+    function setStatus(form, msg, ok) {
+      var btn = form.querySelector('button[type="submit"]');
+      var st = form.querySelector('.form-status');
+      if (!st) {
+        st = document.createElement('p');
+        st.className = 'form-status';
+        st.setAttribute('role', 'status');
+        st.setAttribute('aria-live', 'polite');
+        if (btn) btn.after(st); else form.appendChild(st);
+      }
+      st.textContent = msg;
+      st.style.cssText = 'margin:12px 0 0;padding:10px 14px;border-radius:8px;font-weight:600;text-align:center;' +
+        (ok ? 'background:#e6f4ea;color:#137333;border:1px solid #137333;'
+            : 'background:#fdecea;color:#b3261e;border:1px solid #b3261e;');
+    }
+    function clearStatus(form) {
+      var st = form.querySelector('.form-status');
+      if (st) st.remove();
     }
     forms.forEach(function (form) {
       form.addEventListener('input', function (e) {
@@ -126,9 +147,48 @@ document.addEventListener('DOMContentLoaded', () => {
         var fileV = form.querySelector('[name="attachment"]');
         if (fileV && fileV.files && fileV.files[0] && fileV.files[0].size > 10 * 1024 * 1024)
           bad(fieldByName(form, 'attachment'), 'Please attach a file smaller than 10 MB.');
-        if (firstBad) { e.preventDefault(); firstBad.focus(); return; }
+        if (firstBad) {
+          e.preventDefault();
+          setStatus(form, 'Please fix the highlighted fields and try again.', false);
+          firstBad.focus();
+          return;
+        }
+        e.preventDefault();
+        clearStatus(form);
         var btn = form.querySelector('button[type="submit"]');
+        var btnText = btn ? btn.textContent : '';
         if (btn) { btn.disabled = true; btn.textContent = 'Sending\u2026'; }
+        var ajaxUrl = form.action.replace('formsubmit.co/', 'formsubmit.co/ajax/');
+        var ctrl = ('AbortController' in window) ? new AbortController() : null;
+        var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, 20000) : null;
+        fetch(ajaxUrl, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' },
+          signal: ctrl ? ctrl.signal : undefined
+        }).then(function (res) {
+          return res.json().catch(function () { return {}; }).then(function (data) {
+            return { ok: res.ok, data: data };
+          });
+        }).then(function (r) {
+          if (timer) clearTimeout(timer);
+          var success = r.ok && (r.data.success === true || r.data.success === 'true');
+          if (success) {
+            form.reset();
+            setStatus(form, 'Thank you! Your inquiry has been submitted successfully. We will contact you soon.', true);
+            if (btn) {
+              btn.textContent = 'Sent \u2713';
+              setTimeout(function () { btn.disabled = false; btn.textContent = btnText; }, 3000);
+            }
+          } else {
+            setStatus(form, 'Sorry, your message could not be sent. Please try again or call 718.675.2820.', false);
+            if (btn) { btn.disabled = false; btn.textContent = btnText; }
+          }
+        }).catch(function () {
+          if (timer) clearTimeout(timer);
+          setStatus(form, 'Sorry, your message could not be sent. Please try again or call 718.675.2820.', false);
+          if (btn) { btn.disabled = false; btn.textContent = btnText; }
+        });
       });
     });
   })();
