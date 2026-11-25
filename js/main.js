@@ -177,7 +177,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.appendChild(frame);
         form.target = frameName;
         var done = false;
-        var submittedAt = Date.now();
+        var submittedAt = 0;
+        var loadedAt = 0;
         function finish(ok) {
           if (done) return;
           done = true;
@@ -196,10 +197,15 @@ document.addEventListener('DOMContentLoaded', () => {
           }
           setTimeout(function () { frame.remove(); }, 500);
         }
+        frame.addEventListener('load', function () {
+          if (submittedAt && Date.now() - submittedAt > 800 && !loadedAt) loadedAt = Date.now();
+        });
+        submittedAt = Date.now();
         var poll = setInterval(function () {
           var path = '';
           try { path = frame.contentWindow.location.pathname; } catch (err) { path = ''; }
           if (path.indexOf('/form-sent') === 0) { clearInterval(poll); finish(true); }
+          else if (loadedAt && Date.now() - loadedAt > 2500) { clearInterval(poll); finish(true); }
           else if (Date.now() - submittedAt > 30000) { clearInterval(poll); finish(false); }
         }, 300);
         form.submit();
