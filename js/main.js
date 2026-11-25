@@ -106,8 +106,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
       form.addEventListener('submit', function (e) {
+        e.preventDefault();
         var honey = form.querySelector('[name="_honey"]');
-        if (honey && honey.value) { e.preventDefault(); return; }
+        if (honey && honey.value) { return; }
         var firstBad = null;
         function bad(field, msg) {
           if (!field) return;
@@ -161,9 +162,11 @@ document.addEventListener('DOMContentLoaded', () => {
         var ajaxUrl = form.action.replace('formsubmit.co/', 'formsubmit.co/ajax/');
         var ctrl = ('AbortController' in window) ? new AbortController() : null;
         var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, 20000) : null;
+        var fd = new FormData(form);
+        if (fileV && (!fileV.files || !fileV.files.length)) fd.delete('attachment');
         fetch(ajaxUrl, {
           method: 'POST',
-          body: new FormData(form),
+          body: fd,
           headers: { 'Accept': 'application/json' },
           signal: ctrl ? ctrl.signal : undefined
         }).then(function (res) {
