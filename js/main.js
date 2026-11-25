@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   /* Inquiry forms: validate in the browser, then genuinely submit.
-     Delivery: FormSubmit forwards each valid inquiry to laneballoon@gmail.com
+     Delivery: FormSubmit forwards each valid inquiry to seooptimizeragency@gmail.com
      (spam captcha page + first-submission activation email apply on their side). */
   (function () {
     var forms = document.querySelectorAll('form.inquiry-form');
