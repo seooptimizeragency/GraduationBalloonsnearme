@@ -47,8 +47,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 
-  /* Inquiry forms: validate in the browser, then submit in-page via AJAX
-     (no navigation to FormSubmit). Delivery: FormSubmit forwards each valid
+  /* Inquiry forms: validate in the browser, then submit in-page via a hidden iframe
+     (no navigation to FormSubmit; the classic endpoint is used because the AJAX route proved unreliable for this form). Delivery: FormSubmit forwards each valid
      inquiry to seooptimizeragency@gmail.com; success is shown only after
      FormSubmit confirms, errors show an inline message. First-submission
      activation email applies on their side. */
@@ -159,24 +159,31 @@ document.addEventListener('DOMContentLoaded', () => {
         var btn = form.querySelector('button[type="submit"]');
         var btnText = btn ? btn.textContent : '';
         if (btn) { btn.disabled = true; btn.textContent = 'Sending\u2026'; }
-        var ajaxUrl = form.action.replace('formsubmit.co/', 'formsubmit.co/ajax/');
-        var ctrl = ('AbortController' in window) ? new AbortController() : null;
-        var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, 20000) : null;
-        var fd = new FormData(form);
-        if (fileV && (!fileV.files || !fileV.files.length)) fd.delete('attachment');
-        fetch(ajaxUrl, {
-          method: 'POST',
-          body: fd,
-          headers: { 'Accept': 'application/json' },
-          signal: ctrl ? ctrl.signal : undefined
-        }).then(function (res) {
-          return res.json().catch(function () { return {}; }).then(function (data) {
-            return { ok: res.ok, data: data };
-          });
-        }).then(function (r) {
-          if (timer) clearTimeout(timer);
-          var success = r.ok && (r.data.success === true || r.data.success === 'true');
-          if (success) {
+        if (form.dataset.sending === '1') return;
+        form.dataset.sending = '1';
+        function ensureHidden(name, value) {
+          var el = form.querySelector('input[name="' + name + '"]');
+          if (!el) { el = document.createElement('input'); el.type = 'hidden'; el.name = name; form.appendChild(el); }
+          el.value = value;
+        }
+        ensureHidden('_next', window.location.origin + '/form-sent/');
+        ensureHidden('_captcha', 'false');
+        var frameName = 'fs-frame-' + Math.random().toString(36).slice(2, 9);
+        var frame = document.createElement('iframe');
+        frame.name = frameName;
+        frame.style.display = 'none';
+        frame.setAttribute('aria-hidden', 'true');
+        frame.tabIndex = -1;
+        document.body.appendChild(frame);
+        form.target = frameName;
+        var done = false;
+        var submittedAt = Date.now();
+        function finish(ok) {
+          if (done) return;
+          done = true;
+          form.dataset.sending = '';
+          form.removeAttribute('target');
+          if (ok) {
             form.reset();
             setStatus(form, 'Thank you! Your inquiry has been submitted successfully. We will contact you soon.', true);
             if (btn) {
@@ -187,11 +194,16 @@ document.addEventListener('DOMContentLoaded', () => {
             setStatus(form, 'Sorry, your message could not be sent. Please try again or call 718.675.2820.', false);
             if (btn) { btn.disabled = false; btn.textContent = btnText; }
           }
-        }).catch(function () {
-          if (timer) clearTimeout(timer);
-          setStatus(form, 'Sorry, your message could not be sent. Please try again or call 718.675.2820.', false);
-          if (btn) { btn.disabled = false; btn.textContent = btnText; }
-        });
+          setTimeout(function () { frame.remove(); }, 500);
+        }
+        var poll = setInterval(function () {
+          var path = '';
+          try { path = frame.contentWindow.location.pathname; } catch (err) { path = ''; }
+          if (path.indexOf('/form-sent') === 0) { clearInterval(poll); finish(true); }
+          else if (Date.now() - submittedAt > 30000) { clearInterval(poll); finish(false); }
+        }, 300);
+        form.submit();
+
       });
     });
   })();
